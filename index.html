@@ -60,6 +60,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      min-height: 100dvh;
       padding: 2rem 1rem 4rem;
       gap: 2.5rem;
       position: relative;
@@ -74,6 +75,7 @@
     #mosaic-wrap {
       position: relative;
       display: inline-block;
+      max-width: calc(100vw - 2rem);
       border-radius: 4px;
       box-shadow: 0 0 80px rgba(245, 200, 66, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.06);
       transform: scale(1);
@@ -90,6 +92,7 @@
       gap: 2px;
       background: transparent;
       perspective: 900px;
+      max-width: 100%;
       /* High-end 3D depth */
     }
 
@@ -292,17 +295,27 @@
     // ═══════════════════════════════════════════════════
     //  DOMINO LOGIC
     // ═══════════════════════════════════════════════════
-    const COLS = 30, ROWS = 30, TILE_PX = 19;
+    const COLS = 30, ROWS = 30, BASE_TILE_PX = 19, GRID_GAP = 2;
     const JEWELS = ['#E8637A', '#F5C842', '#9B6FD8', '#4ECDC4', '#F08A5D', '#6BCB77', '#F7B2BD', '#AEE6FF'];
     const grid = document.getElementById('grid');
     const wrap = document.getElementById('mosaic-wrap');
     const replayBtn = document.getElementById('replay');
 
     // Size the grid correctly
-    grid.style.gridTemplateColumns = `repeat(${COLS}, ${TILE_PX}px)`;
-    grid.style.gridTemplateRows = `repeat(${ROWS}, ${TILE_PX}px)`;
-    grid.style.width = (COLS * TILE_PX + (COLS - 1) * 2) + 'px';
-    grid.style.height = (ROWS * TILE_PX + (ROWS - 1) * 2) + 'px';
+    function updateGridSize() {
+      const maxWidth = window.innerWidth - 32;
+      const maxHeight = window.innerHeight - 180;
+      const available = Math.max(260, Math.min(maxWidth, maxHeight));
+      const tilePx = Math.min(BASE_TILE_PX, Math.floor((available - (COLS - 1) * GRID_GAP) / COLS));
+      const gridSize = COLS * tilePx + (COLS - 1) * GRID_GAP;
+
+      grid.style.gridTemplateColumns = `repeat(${COLS}, ${tilePx}px)`;
+      grid.style.gridTemplateRows = `repeat(${ROWS}, ${tilePx}px)`;
+      grid.style.width = gridSize + 'px';
+      grid.style.height = gridSize + 'px';
+    }
+
+    updateGridSize();
     grid.style.display = 'none';
 
     const tiles = [];
@@ -460,6 +473,7 @@
     const maskCtx = maskCanvas.getContext('2d');
 
     const BRUSH_SIZE = 45;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
     let isDrawing = false;
     let lx = 0, ly = 0;
     let scratchComplete = false;
@@ -469,10 +483,18 @@
     let bdayLoaded = false;
     bdayImg.onload = () => { bdayLoaded = true; drawTearFrame(); };
 
+    function resizeCanvas(canvas, context, width, height) {
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      canvas.width = Math.round(width * DPR);
+      canvas.height = Math.round(height * DPR);
+      context.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
     function initTearableCloth() {
       const w = window.innerWidth, h = window.innerHeight;
-      tearableCanvas.width = w; tearableCanvas.height = h;
-      maskCanvas.width = w; maskCanvas.height = h;
+      resizeCanvas(tearableCanvas, tearCtx, w, h);
+      resizeCanvas(maskCanvas, maskCtx, w, h);
 
       // Fill the mask completely black (opaque)
       maskCtx.fillStyle = '#000';
@@ -556,15 +578,16 @@
 
     function drawTearFrame() {
       if (!bdayLoaded || scratchComplete) return;
-      const cw = tearableCanvas.width, ch = tearableCanvas.height;
+      const cw = tearableCanvas.clientWidth || window.innerWidth;
+      const ch = tearableCanvas.clientHeight || window.innerHeight;
       tearCtx.clearRect(0, 0, cw, ch);
 
       // We want to draw bday.webp over the whole screen, but only where maskCanvas is opaque.
       // Additionally, we want the scratched edge to have a tiny drop shadow 
       // (as if the torn cloth has thickness).
 
-      // Compute contain scaling mode so the image is fully visible
-      const scale = Math.max(cw / bdayImg.width, ch / bdayImg.height);
+      // Keep the birthday image fully visible on every screen size.
+      const scale = Math.min((cw - 24) / bdayImg.width, (ch - 24) / bdayImg.height);
       const dw = bdayImg.width * scale, dh = bdayImg.height * scale;
       const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
 
@@ -575,11 +598,13 @@
       tearCtx.shadowOffsetX = 2;
       tearCtx.shadowOffsetY = 4;
       // Drawing the mask itself will render its solid parts, plus drop shadows into the transparent torn holes!
-      tearCtx.drawImage(maskCanvas, 0, 0);
+      tearCtx.drawImage(maskCanvas, 0, 0, cw, ch);
       tearCtx.restore();
 
       // 2. We now replace the black mask color with the bday.webp image
       tearCtx.globalCompositeOperation = 'source-atop';
+      tearCtx.fillStyle = '#0D0D14';
+      tearCtx.fillRect(0, 0, cw, ch);
       tearCtx.drawImage(bdayImg, dx, dy, dw, dh);
 
       // 3. Reset blending
@@ -605,6 +630,7 @@
 
     window.addEventListener('resize', () => {
       if (!scratchComplete) initTearableCloth();
+      updateGridSize();
       const w = window.innerWidth, h = window.innerHeight;
       cc.width = w; cc.height = h;
     });

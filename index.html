@@ -37,10 +37,10 @@
 
     #background-photo {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      inset: 0;
+      width: 100vw;
       height: 100%;
+      height: 100dvh;
       background-image: url('photo.jpeg');
       background-size: contain;
       background-position: center;
@@ -597,10 +597,10 @@
       // (as if the torn cloth has thickness).
 
       // Keep the birthday image fully visible on every screen size.
-      const margin = 16;
+      const margin = 4;
       const availableWidth = Math.max(1, cw - margin * 2);
       const availableHeight = Math.max(1, ch - margin * 2);
-      const scale = Math.min(availableWidth / bdayImg.width, availableHeight / bdayImg.height, 1);
+      const scale = Math.min(availableWidth / bdayImg.width, availableHeight / bdayImg.height);
       const dw = bdayImg.width * scale, dh = bdayImg.height * scale;
       const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
 

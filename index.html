@@ -115,8 +115,9 @@ const GRAVITY        = 0.5;
 const DAMPING        = 0.988;
 const ITERATIONS     = 8;
 const TEAR_DIST_MULT = 2.6;   // stick tears when stretched beyond this × rest length
-const MOUSE_RADIUS   = 80;    // px influence radius
-const MOUSE_CUT_RADIUS = 55;  // px cut radius when dragging fast
+const IS_MOBILE      = window.matchMedia('(pointer: coarse)').matches;
+const MOUSE_RADIUS   = IS_MOBILE ? 38 : 80;    // px influence radius
+const MOUSE_CUT_RADIUS = IS_MOBILE ? 22 : 55;  // px cut radius when dragging fast
 
 let pts  = [];
 let segs = [];

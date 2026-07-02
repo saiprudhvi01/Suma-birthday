@@ -3,15 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joyfull birthday Suma</title>
+  <title>Joyfull Birthday!</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       width: 100%; height: 100%;
-      background:
-        radial-gradient(circle at top, rgba(255, 201, 102, 0.18), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(155, 111, 216, 0.18), transparent 28%),
-        linear-gradient(180deg, #130016 0%, #09010d 55%, #050008 100%);
+      background: #0a0010;
       overflow: hidden;
       font-family: 'Georgia', serif;
     }
@@ -29,8 +26,6 @@
       inset: 0;
       background: url('photo.jpeg') center/cover no-repeat;
       z-index: 0;
-      filter: saturate(1.08) contrast(1.04) brightness(0.95);
-      transform: scale(1.02);
     }
 
     /* Cloth canvas sits on top */
@@ -40,7 +35,6 @@
       z-index: 2;
       cursor: crosshair;
       touch-action: none;
-      transition: opacity 0.9s ease;
     }
 
     /* Confetti above everything */
@@ -67,63 +61,25 @@
       transition: opacity 0.6s ease;
     }
 
-    #title-badge {
+    #next-hint {
       position: absolute;
-      top: 18px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      z-index: 5;
-      color: #fff8df;
-      text-align: center;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-shadow: 0 0 22px rgba(245, 200, 66, 0.4);
-      pointer-events: none;
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    #title-badge .name {
-      display: block;
-      font-size: clamp(28px, 6vw, 56px);
-      font-weight: 700;
-      animation: floatText 4s ease-in-out infinite;
-    }
-    #title-badge .date {
-      display: block;
-      margin-top: 6px;
-      font-size: clamp(12px, 1.8vw, 16px);
-      color: rgba(255, 240, 198, 0.88);
-    }
-
-    #scene-status {
-      position: absolute;
-      left: 50%;
-      top: 78px;
-      transform: translateX(-50%);
-      z-index: 5;
+      transform: translate(-50%, -50%);
       color: #fff;
-      background: rgba(7, 4, 18, 0.42);
-      border: 1px solid rgba(245, 200, 66, 0.24);
-      backdrop-filter: blur(10px);
-      border-radius: 999px;
-      padding: 8px 16px;
-      font-size: 13px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      box-shadow: 0 0 22px rgba(245, 200, 66, 0.12);
+      font-size: clamp(18px, 4vw, 32px);
+      background: rgba(0, 0, 0, 0.65);
+      padding: 16px 26px;
+      border-radius: 40px;
+      letter-spacing: 0.08em;
+      text-align: center;
+      z-index: 6;
+      opacity: 0;
       pointer-events: none;
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition: opacity 0.4s ease;
     }
-    /* hide the status element when it has no text to avoid an empty pill showing */
-    #scene-status:empty { display: none; }
-
-    .floating-star {
-      position: absolute;
-      z-index: 1;
-      color: rgba(255, 244, 199, 0.66);
-      font-size: 14px;
-      animation: drift 12s linear infinite;
-      pointer-events: none;
-      user-select: none;
+    #next-hint.visible {
+      opacity: 1;
     }
 
     #replay {
@@ -147,7 +103,6 @@
     #replay.visible { opacity: 1; }
 
     #next-btn {
-      display: none;
       position: absolute;
       bottom: 20px;
       right: 20px;
@@ -172,104 +127,52 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.12); }
     }
-    @keyframes floatText {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
-    }
-    @keyframes drift {
-      0% { transform: translate3d(0, 18px, 0) rotate(0deg); opacity: 0; }
-      15% { opacity: 1; }
-      50% { transform: translate3d(16px, -10px, 0) rotate(180deg); }
-      100% { transform: translate3d(-8px, -28px, 0) rotate(360deg); opacity: 0; }
-    }
     @keyframes flicker {
       0%, 100% { opacity: 1; }
       45% { opacity: 0.85; }
       50% { opacity: 0.6; }
       55% { opacity: 0.9; }
     }
+
     #cake-container {
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
-      transform: translateY(80px) scale(0.98);
+      transform: translateY(80px);
       transition: opacity 1.2s ease, transform 1.2s ease;
       z-index: 10;
-      background:
-        radial-gradient(circle at top, rgba(255, 215, 120, 0.18), transparent 26%),
-        radial-gradient(circle at bottom, rgba(155, 111, 216, 0.20), transparent 34%),
-        rgba(0, 0, 0, 0.58);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.55);
     }
     #cake-container.visible {
       opacity: 1; pointer-events: auto;
-      transform: translateY(0) scale(1);
-    }
-    #cake-container::before,
-    #cake-container::after {
-      content: "✦";
-      position: absolute;
-      color: rgba(255, 243, 201, 0.7);
-      font-size: 20px;
-      animation: floatStar 5s ease-in-out infinite;
-      pointer-events: none;
-    }
-    #cake-container::before { top: 15%; left: 12%; }
-    #cake-container::after { top: 18%; right: 14%; animation-delay: 1.4s; }
-    @keyframes floatStar {
-      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.55; }
-      50% { transform: translateY(-18px) scale(1.2); opacity: 1; }
-    }
-    #cake-card {
-      position: relative;
-      padding: 28px 24px 32px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(30, 10, 44, 0.76), rgba(10, 5, 18, 0.88));
-      border: 1px solid rgba(245, 200, 66, 0.22);
-      box-shadow: 0 18px 70px rgba(0, 0, 0, 0.42), 0 0 30px rgba(245, 200, 66, 0.08);
-      text-align: center;
-      max-width: min(92vw, 520px);
-    }
-    #cake-ribbon {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: rgba(245, 200, 66, 0.12);
-      border: 1px solid rgba(245, 200, 66, 0.22);
-      color: #ffe9a8;
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      transform: translateY(0);
     }
     #cake-emoji {
-      font-size: clamp(88px, 18vw, 132px);
-      animation: pulse 2s infinite ease-in-out, flicker 1.8s infinite ease-in-out, floatText 4s ease-in-out infinite;
+      font-size: 100px;
+      animation: pulse 2s infinite ease-in-out, flicker 1.8s infinite ease-in-out;
       filter: drop-shadow(0 0 18px rgba(255,200,80,0.7));
+    }
+    #cake-candles {
+      margin-top: 16px;
+      font-size: 34px;
+      letter-spacing: 0.18em;
+      animation: flicker 1.8s infinite ease-in-out;
     }
     #cake-title {
       color: #fff;
       font-family: 'Georgia', serif;
-      margin-top: 18px;
-      font-size: clamp(24px, 5vw, 40px);
+      margin-top: 20px;
+      font-size: clamp(22px, 5vw, 36px);
       text-shadow: 0 0 18px rgba(255,180,60,0.8), 0 2px 8px rgba(0,0,0,0.6);
       letter-spacing: 0.04em;
     }
-    #cake-subtitle {
-      margin-top: 10px;
-      color: rgba(255, 244, 207, 0.85);
-      font-size: clamp(14px, 2.3vw, 18px);
-      line-height: 1.5;
-      max-width: 42ch;
-    }
+    #cut-cake,
     #blow-candles {
-      margin-top: 26px;
+      margin-top: 30px;
       padding: 12px 30px;
       cursor: pointer;
-      background: linear-gradient(180deg, #ffe08a 0%, #F5C842 100%);
+      background: #F5C842;
       border: none;
       border-radius: 30px;
       font-weight: bold;
@@ -282,51 +185,64 @@
     #wish-msg {
       color: #F5C842;
       font-family: 'Georgia', serif;
-      font-size: clamp(30px, 8vw, 62px);
+      font-size: clamp(28px, 7vw, 56px);
       text-align: center;
       text-shadow: 0 0 24px rgba(245,200,66,0.8), 0 2px 10px rgba(0,0,0,0.7);
       animation: pulse 1.6s infinite ease-in-out;
       padding: 0 20px;
-    }
-    #wish-sub {
-      color: rgba(255, 244, 207, 0.9);
-      margin-top: 12px;
-      font-size: clamp(15px, 2.3vw, 20px);
-      text-align: center;
-      max-width: 46ch;
-      line-height: 1.55;
     }
   </style>
 </head>
 <body>
 <div id="app">
   <div id="photo-bg"></div>
-  <div id="title-badge">
-    <span class="name">Suma</span>
-    <span class="date">Birthday sparkle • Jul 3</span>
-  </div>
-  <div id="scene-status"></div>
-  <span class="floating-star" style="left:10%; top:18%; animation-delay:0s;">✦</span>
-  <span class="floating-star" style="left:82%; top:24%; animation-delay:1.2s;">✦</span>
-  <span class="floating-star" style="left:16%; top:72%; animation-delay:2s;">✦</span>
-  <span class="floating-star" style="left:70%; top:76%; animation-delay:3s;">✦</span>
   <canvas id="cloth-canvas"></canvas>
   <canvas id="confetti-canvas"></canvas>
   <div id="hint">✦ Grab &amp; tear the cloth</div>
+  <div id="next-hint">Click <strong>Next</strong> to continue</div>
   <button id="replay">↺ Replay</button>
   <button id="next-btn">Next →</button>
   <div id="cake-container">
-    <div id="cake-card">
-      <div id="cake-ribbon">Joyfull birthday Suma • Jul 3</div>
-      <div id="cake-emoji">🎂</div>
-      <h2 id="cake-title">A little celebration, just for you</h2>
-      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
-      <button id="blow-candles">🕯️ Blow out the candles</button>
-    </div>
+    <div id="cake-emoji">🎂</div>
+    <h2 id="cake-title">Make a Wish!</h2>
+    <button id="blow-candles">🕯️ Blow out the candles</button>
   </div>
 </div>
 
 <script>
+// ─────────────────────────────────────────────
+//  SONG
+// ─────────────────────────────────────────────
+const birthdaySong = new Audio('song.mp3');
+birthdaySong.preload = 'auto';
+birthdaySong.loop = false;
+birthdaySong.volume = 0.8;
+birthdaySong.crossOrigin = 'anonymous';
+
+function playBirthdaySong() {
+  try {
+    birthdaySong.currentTime = 0;
+    birthdaySong.muted = false;
+    const playPromise = birthdaySong.play();
+    
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch((err) => {
+        console.log('Audio play failed, retrying with click handler:', err);
+        // Fallback: try again on next user interaction
+        const retryPlay = () => {
+          birthdaySong.play().catch(() => {});
+          document.removeEventListener('click', retryPlay);
+          document.removeEventListener('touchstart', retryPlay);
+        };
+        document.addEventListener('click', retryPlay, { once: true });
+        document.addEventListener('touchstart', retryPlay, { once: true });
+      });
+    }
+  } catch (e) {
+    console.log('Audio play exception:', e);
+  }
+}
+
 // ─────────────────────────────────────────────
 //  SETUP
 // ─────────────────────────────────────────────
@@ -336,8 +252,7 @@ const confCvs  = document.getElementById('confetti-canvas');
 const confCtx  = confCvs.getContext('2d');
 const app      = document.getElementById('app');
 const hint     = document.getElementById('hint');
-const sceneStatus = document.getElementById('scene-status');
-const clothCanvas = canvas;
+const nextHint = document.getElementById('next-hint');
 const replayBtn= document.getElementById('replay');
 const nextBtn  = document.getElementById('next-btn');
 
@@ -352,21 +267,23 @@ let SX, SY; // spacing x / y
 const GRAVITY        = 0.5;
 const DAMPING        = 0.988;
 const ITERATIONS     = 8;
-const TEAR_DIST_MULT = 2.6;   // stick tears when stretched beyond this × rest length
+const TEAR_DIST_MULT = 2.6;
 const IS_MOBILE      = window.matchMedia('(pointer: coarse)').matches;
-const MOUSE_RADIUS   = IS_MOBILE ? 38 : 80;    // px influence radius
-const MOUSE_CUT_RADIUS = IS_MOBILE ? 22 : 55;  // px cut radius when dragging fast
+const MOUSE_RADIUS   = IS_MOBILE ? 56 : 80;
+const MOUSE_CUT_RADIUS = IS_MOBILE ? 36 : 55;
+const MOUSE_CUT_SPEED  = IS_MOBILE ? 2.0 : 4.0;
+const AUTO_REVEAL_DELAY_MS = 5000;
 
 let pts  = [];
 let segs = [];
 
-// Cloth image (bday.webp painted onto the cloth)
+// Cloth image
 const clothImg = new Image();
 clothImg.src = 'bday.webp';
 let clothImgReady = false;
 clothImg.onload = () => { clothImgReady = true; };
 
-// Off-screen canvas to render cloth image at full resolution
+// Off-screen canvas
 const sampler = document.createElement('canvas');
 const sampCtx = sampler.getContext('2d');
 
@@ -377,19 +294,15 @@ const mouse = { x: -9999, y: -9999, px: -9999, py: -9999, down: false };
 let confPieces = [];
 let confRaf;
 let revealDone = false;
-let revealTimer = null;
-let revealCountdownTimer = null;
-let revealCountdown = 5;
-let autoAdvanceStarted = false;
+let autoRevealTimer = null;
 
 // ─────────────────────────────────────────────
 //  PAPER TEAR SOUND ENGINE
 // ─────────────────────────────────────────────
 let audioCtx = null;
 let tearSoundActive = false;
-let tearSoundNodes = null;
-let lastTornCount = 0;
 let tearIntensityTimer = null;
+let lastTornCount = 0;
 
 function getAudioCtx() {
   if (!audioCtx) {
@@ -399,19 +312,16 @@ function getAudioCtx() {
   return audioCtx;
 }
 
-// Generates a single short paper-fiber crackle burst
 function playTearCrackle(intensity) {
   const ac = getAudioCtx();
-  const duration = 0.04 + Math.random() * 0.05; // 40–90 ms burst
+  const duration = 0.04 + Math.random() * 0.05;
   const sr = ac.sampleRate;
   const frameCount = Math.ceil(sr * duration);
 
-  // Layer 1: white noise
   const bufWhite = ac.createBuffer(1, frameCount, sr);
   const dWhite = bufWhite.getChannelData(0);
   for (let i = 0; i < frameCount; i++) dWhite[i] = Math.random() * 2 - 1;
 
-  // Layer 2: pink-ish noise (each sample is avg of 3 randoms → smoother spectrum)
   const bufPink = ac.createBuffer(1, frameCount, sr);
   const dPink = bufPink.getChannelData(0);
   let b0 = 0, b1 = 0, b2 = 0;
@@ -430,7 +340,6 @@ function playTearCrackle(intensity) {
   masterGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
   masterGain.connect(ac.destination);
 
-  // White noise → bandpass @ 2.8 kHz (crisp fiber snap)
   const srcW = ac.createBufferSource();
   srcW.buffer = bufWhite;
   const bpW = ac.createBiquadFilter();
@@ -441,7 +350,6 @@ function playTearCrackle(intensity) {
   bpW.connect(masterGain);
   srcW.start(now);
 
-  // White noise → bandpass @ 5 kHz (high-end shred)
   const srcW2 = ac.createBufferSource();
   srcW2.buffer = bufWhite;
   const bpW2 = ac.createBiquadFilter();
@@ -455,7 +363,6 @@ function playTearCrackle(intensity) {
   gainW2.connect(masterGain);
   srcW2.start(now);
 
-  // Pink noise → lowpass @ 1.2 kHz (body / thud of thick paper)
   const srcP = ac.createBufferSource();
   srcP.buffer = bufPink;
   const lpP = ac.createBiquadFilter();
@@ -469,14 +376,12 @@ function playTearCrackle(intensity) {
   srcP.start(now);
 }
 
-// Continuous tear: fires rapid crackle bursts while dragging & tearing
 function startTearSound() {
   if (tearSoundActive) return;
   tearSoundActive = true;
   function burst() {
     if (!tearSoundActive) return;
     playTearCrackle(0.35 + Math.random() * 0.35);
-    // Interval varies 18–45 ms → sounds like irregular fiber breaks
     tearIntensityTimer = setTimeout(burst, 18 + Math.random() * 27);
   }
   burst();
@@ -487,7 +392,6 @@ function stopTearSound() {
   clearTimeout(tearIntensityTimer);
 }
 
-// Track torn count so we only play sound when new sticks actually tear
 function resetTearCount() {
   lastTornCount = 0;
 }
@@ -499,19 +403,13 @@ function initCloth() {
   pts = [];
   segs = [];
   revealDone = false;
-  autoAdvanceStarted = false;
-  clearTimeout(revealTimer);
-  clearInterval(revealCountdownTimer);
+  clearAutoRevealTimer();
   replayBtn.classList.remove('visible');
   nextBtn.classList.remove('visible');
+  nextHint.classList.remove('visible');
+  hint.innerText = '✦ Grab & tear the cloth';
   hint.style.opacity = '1';
-  sceneStatus.textContent = '';
-  sceneStatus.style.opacity = '1';
-  sceneStatus.style.transform = 'translateX(-50%) translateY(0)';
-  clothCanvas.style.opacity = '1';
-  clothCanvas.style.pointerEvents = 'auto';
 
-  // Draw cloth image at full screen resolution into sampler
   sampler.width  = W;
   sampler.height = H;
   if (clothImgReady) {
@@ -525,7 +423,6 @@ function initCloth() {
     sampCtx.fillRect(0, 0, W, H);
   }
 
-  // Build points — store UV coords for texture lookup
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
       const x = c * SX;
@@ -533,19 +430,17 @@ function initCloth() {
       pts.push({
         x, y, px: x, py: y,
         pinned: r === 0,
-        u: x, v: y,   // original screen position = UV into sampler
+        u: x, v: y,
       });
     }
   }
 
-  // Horizontal sticks
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS - 1; c++) {
       const i = r * COLS + c;
       segs.push({ a: pts[i], b: pts[i + 1], len: SX, torn: false });
     }
   }
-  // Vertical sticks
   for (let r = 0; r < ROWS - 1; r++) {
     for (let c = 0; c < COLS; c++) {
       const i = r * COLS + c;
@@ -562,7 +457,6 @@ function update() {
   const mdy = mouse.y - mouse.py;
   const mspeed = Math.hypot(mdx, mdy);
 
-  // Integrate velocity
   for (const p of pts) {
     if (p.pinned) continue;
     const vx = (p.x - p.px) * DAMPING;
@@ -571,10 +465,8 @@ function update() {
     p.py = p.y;
     p.x += vx;
     p.y += vy + GRAVITY;
-    // Floor
     if (p.y > H + 60) { p.y = H + 60; }
 
-    // Mouse interaction
     if (mouse.down) {
       const dx = p.x - mouse.x;
       const dy = p.y - mouse.y;
@@ -587,7 +479,6 @@ function update() {
     }
   }
 
-  // Constraint solving
   for (let iter = 0; iter < ITERATIONS; iter++) {
     for (const s of segs) {
       if (s.torn) continue;
@@ -599,15 +490,13 @@ function update() {
       const oy = dy * diff;
       if (!s.a.pinned) { s.a.x += ox; s.a.y += oy; }
       if (!s.b.pinned) { s.b.x -= ox; s.b.y -= oy; }
-      // Auto-tear if over-stretched
       if (dist > s.len * TEAR_DIST_MULT) {
         s.torn = true;
       }
     }
   }
 
-  // Mouse cut: tear sticks near cursor when dragging fast
-  if (mouse.down && mspeed > 4) {
+  if (mouse.down && mspeed > MOUSE_CUT_SPEED) {
     for (const s of segs) {
       if (s.torn) continue;
       const mx = (s.a.x + s.b.x) * 0.5;
@@ -621,7 +510,6 @@ function update() {
   mouse.px = mouse.x;
   mouse.py = mouse.y;
 
-  // Trigger tear sound when new sticks are torn while mouse is held
   if (mouse.down) {
     const currentTorn = segs.filter(s => s.torn).length;
     if (currentTorn > lastTornCount) {
@@ -630,38 +518,38 @@ function update() {
     }
   }
 
-  // Check reveal progress
   if (!revealDone) {
     const tornCount = segs.filter(s => s.torn).length;
-    const pct = tornCount / segs.length;
-    if (pct > 0.30) {
-      revealDone = true;
-      hint.style.opacity = '0';
-      canvas.style.pointerEvents = 'none';
-      sceneStatus.textContent = 'Photo revealed — cake scene in 5 seconds';
-      sceneStatus.style.transform = 'translateX(-50%) translateY(-4px)';
-      clothCanvas.style.opacity = '0';
-      if (!autoAdvanceStarted) {
-        autoAdvanceStarted = true;
-        revealCountdown = 5;
-        clearInterval(revealCountdownTimer);
-        revealCountdownTimer = setInterval(() => {
-          revealCountdown -= 1;
-          if (revealCountdown > 0) {
-            sceneStatus.textContent = `Photo revealed — cake scene in ${revealCountdown} seconds`;
-          }
-        }, 1000);
-        revealTimer = setTimeout(() => {
-          clearInterval(revealCountdownTimer);
-          enterCakeScene();
-        }, 5000);
-      }
+    if (tornCount > 0 && !autoRevealTimer) {
+      hint.innerText = 'Nice! Taking you to the celebration...';
+      autoRevealTimer = setTimeout(goToCelebration, AUTO_REVEAL_DELAY_MS);
     }
   }
 }
 
+function clearAutoRevealTimer() {
+  if (autoRevealTimer) {
+    clearTimeout(autoRevealTimer);
+    autoRevealTimer = null;
+  }
+}
+
+function goToCelebration() {
+  if (revealDone) return;
+  revealDone = true;
+  clearAutoRevealTimer();
+  hint.style.opacity = '0';
+  canvas.style.pointerEvents = 'none';
+  playBirthdaySong();
+  // Store the current playback time so celebration page continues from same point
+  sessionStorage.setItem('birthdaySongTime', birthdaySong.currentTime.toString());
+  setTimeout(() => {
+    window.location.href = 'celebration.html';
+  }, 400);
+}
+
 // ─────────────────────────────────────────────
-//  TEXTURED TRIANGLE — maps image onto deformed cloth
+//  TEXTURED TRIANGLE
 // ─────────────────────────────────────────────
 function drawTexturedTriangle(ctx, img, x0,y0,u0,v0, x1,y1,u1,v1, x2,y2,u2,v2) {
   ctx.save();
@@ -672,7 +560,6 @@ function drawTexturedTriangle(ctx, img, x0,y0,u0,v0, x1,y1,u1,v1, x2,y2,u2,v2) {
   ctx.closePath();
   ctx.clip();
 
-  // Solve the affine transform: source UV → screen XY
   const denom = (u0*(v1-v2) + u1*(v2-v0) + u2*(v0-v1));
   if (Math.abs(denom) < 0.0001) { ctx.restore(); return; }
 
@@ -689,29 +576,23 @@ function drawTexturedTriangle(ctx, img, x0,y0,u0,v0, x1,y1,u1,v1, x2,y2,u2,v2) {
 }
 
 // ─────────────────────────────────────────────
-//  DRAW — smooth cloth quads, no grid lines
+//  DRAW
 // ─────────────────────────────────────────────
 function draw() {
   ctx.clearRect(0, 0, W, H);
 
-  // We draw the cloth as filled quads using image data colours.
-  // Skip any quad where a bordering stick is torn → shows photo behind.
-  // We also build a lookup for torn sticks keyed by point pair for speed.
-  const tornH = new Set(); // horizontal torn sticks: key = r*COLS+c → r*COLS+c+1
-  const tornV = new Set(); // vertical torn sticks
+  const tornH = new Set();
+  const tornV = new Set();
 
   for (const s of segs) {
     if (!s.torn) continue;
-    // Determine orientation by rest length
     const ia = pts.indexOf(s.a);
     const ib = pts.indexOf(s.b);
-    if (ib === ia + 1) tornH.add(ia);         // horizontal
-    else if (ib === ia + COLS) tornV.add(ia); // vertical
+    if (ib === ia + 1) tornH.add(ia);
+    else if (ib === ia + COLS) tornV.add(ia);
   }
 
-  // Draw filled quads
-  ctx.shadowBlur = 0; // ensure no blur bleeds onto cloth quads
-  const clothPath = new Path2D();
+  ctx.shadowBlur = 0;
   for (let r = 0; r < ROWS - 1; r++) {
     for (let c = 0; c < COLS - 1; c++) {
       const i  = r * COLS + c;
@@ -720,11 +601,8 @@ function draw() {
       const p2 = pts[i + COLS];
       const p3 = pts[i + COLS + 1];
 
-      // Skip if any of the 4 bounding sticks are torn
       if (tornH.has(i) || tornH.has(i + COLS) || tornV.has(i) || tornV.has(i + 1)) continue;
 
-      // Draw the quad by mapping the sampler image onto the deformed quad
-      // Split into 2 triangles and use canvas transform to texture-map each
       drawTexturedTriangle(ctx, sampler,
         p0.x, p0.y, p0.u, p0.v,
         p1.x, p1.y, p1.u, p1.v,
@@ -735,30 +613,7 @@ function draw() {
         p3.x, p3.y, p3.u, p3.v,
         p2.x, p2.y, p2.u, p2.v
       );
-
-      clothPath.moveTo(p0.x, p0.y);
-      clothPath.lineTo(p1.x, p1.y);
-      clothPath.lineTo(p3.x, p3.y);
-      clothPath.lineTo(p2.x, p2.y);
-      clothPath.closePath();
     }
-  }
-
-  // Only draw text while cloth is still being torn
-  if (!revealDone) {
-    ctx.save();
-    ctx.clip(clothPath);
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = `700 ${Math.min(W * 0.12, H * 0.13, 86)}px Georgia, serif`;
-    ctx.lineWidth = Math.max(4, Math.min(W, H) * 0.008);
-    ctx.strokeStyle = 'rgba(45, 12, 55, 0.72)';
-    ctx.fillStyle = '#fff4c7';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
-    ctx.shadowBlur = 10;
-    ctx.strokeText('Joyfull birthday', W / 2, H * 0.48);
-    ctx.fillText('Joyfull birthday', W / 2, H * 0.48);
-    ctx.restore();
   }
 }
 
@@ -775,19 +630,6 @@ function launchConfetti() {
   }));
   cancelAnimationFrame(confRaf);
   tickConfetti();
-}
-
-function enterCakeScene() {
-  clearTimeout(revealTimer);
-  clearInterval(revealCountdownTimer);
-  launchConfetti();
-  launchConfetti();
-  replayBtn.classList.add('visible');
-  nextBtn.classList.remove('visible');
-  const cakeContainer = document.getElementById('cake-container');
-  cakeContainer.classList.add('visible');
-  sceneStatus.textContent = 'Time for candles and cake';
-  sceneStatus.style.opacity = '0';
 }
 
 function tickConfetti() {
@@ -844,7 +686,8 @@ canvas.addEventListener('mousedown', e => {
   const p = getXY(e);
   mouse.x = p.x; mouse.y = p.y; mouse.px = p.x; mouse.py = p.y;
   hint.style.opacity = '0';
-  getAudioCtx(); // unlock audio context on first user gesture
+  getAudioCtx();
+  birthdaySong.play().catch(() => {});
 });
 canvas.addEventListener('mousemove', e => {
   if (!mouse.down) return;
@@ -862,7 +705,8 @@ canvas.addEventListener('touchstart', e => {
   const p = getXY(e);
   mouse.x = p.x; mouse.y = p.y; mouse.px = p.x; mouse.py = p.y;
   hint.style.opacity = '0';
-  getAudioCtx(); // unlock audio context on first user gesture
+  getAudioCtx();
+  birthdaySong.play().catch(() => {});
 }, { passive: false });
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
@@ -875,37 +719,54 @@ window.addEventListener('touchend', () => {
   stopTearSound();
 });
 
-function blowCandles() {
+function showCakeScene() {
   const cc = document.getElementById('cake-container');
-  cc.innerHTML = '<div id="wish-msg">Joyfull birthday Suma</div><div id="wish-sub">Jul 3 belongs to you — may every wish you make today come back brighter.</div>';
+  cc.innerHTML = `
+    <div id="cake-stage">
+      <div id="cake-emoji">🎂</div>
+      <div id="cake-candles">🕯️🕯️🕯️🕯️🕯️</div>
+      <h2 id="cake-title">Make a wish and cut the cake!</h2>
+      <button id="cut-cake">Cut the Cake</button>
+    </div>
+  `;
+  cc.classList.add('visible');
   launchConfetti();
-  setTimeout(launchConfetti, 800);
-  setTimeout(launchConfetti, 1600);
+  setTimeout(launchConfetti, 700);
+  setTimeout(launchConfetti, 1400);
+  const cutBtn = cc.querySelector('#cut-cake');
+  cutBtn.addEventListener('click', cutCake);
 }
 
-document.getElementById('blow-candles').addEventListener('click', blowCandles);
+function cutCake() {
+  const cc = document.getElementById('cake-container');
+  const cakeEmoji = cc.querySelector('#cake-emoji');
+  cakeEmoji.textContent = '🍰';
+  cakeEmoji.style.transform = 'scale(1.2) rotate(-10deg)';
+  cakeEmoji.style.transition = 'transform 0.25s ease';
+  const title = cc.querySelector('#cake-title');
+  if (title) title.textContent = 'Cake Served!';
+  const cutBtn = cc.querySelector('#cut-cake');
+  if (cutBtn) cutBtn.textContent = 'Enjoy!';
+  launchConfetti();
+  setTimeout(() => {
+    cakeEmoji.style.transform = 'scale(1) rotate(0deg)';
+  }, 300);
+}
 
-// Next button click handler — customize the URL below!
 nextBtn.addEventListener('click', () => {
-  enterCakeScene();
+  nextBtn.classList.remove('visible');
+  nextHint.classList.remove('visible');
+  showCakeScene();
 });
 
 replayBtn.addEventListener('click', () => {
   canvas.style.pointerEvents = 'auto';
   const cc = document.getElementById('cake-container');
   cc.classList.remove('visible');
-  cc.innerHTML = `
-    <div id="cake-card">
-      <div id="cake-ribbon">Joyfull birthday Suma • Jul 3</div>
-      <div id="cake-emoji">🎂</div>
-      <h2 id="cake-title">A little celebration, just for you</h2>
-      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
-      <button id="blow-candles">🕯️ Blow out the candles</button>
-    </div>`;
-  // Re-attach listener since innerHTML was reset
-  cc.querySelector('#blow-candles').addEventListener('click', blowCandles);
+  cc.innerHTML = `<div id="cake-emoji">🎂</div><h2 id="cake-title">Make a Wish!</h2>`;
   stopTearSound();
   resetTearCount();
+  clearAutoRevealTimer();
   confPieces = [];
   confCtx.clearRect(0, 0, W, H);
   resize();
@@ -913,7 +774,6 @@ replayBtn.addEventListener('click', () => {
 
 window.addEventListener('resize', resize);
 
-// Wait for cloth image before first init
 function start() {
   resize();
   loop();
@@ -923,7 +783,6 @@ if (clothImgReady) {
   start();
 } else {
   clothImg.onload = () => { clothImgReady = true; start(); };
-  // Start anyway after short delay even if image fails
   setTimeout(start, 300);
 }
 </script>

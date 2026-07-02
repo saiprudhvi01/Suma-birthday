@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
+  <title>Joyfull birthday Suma</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -27,7 +27,7 @@
     #photo-bg {
       position: absolute;
       inset: 0;
-      background: url('photo.png') center/cover no-repeat;
+      background: url('photo.jpeg') center/cover no-repeat;
       z-index: 0;
       filter: saturate(1.08) contrast(1.04) brightness(0.95);
       transform: scale(1.02);
@@ -300,7 +300,7 @@
 <div id="app">
   <div id="photo-bg"></div>
   <div id="title-badge">
-    <span class="name">Akshitha</span>
+    <span class="name">Suma</span>
     <span class="date">Birthday sparkle • Jul 16</span>
   </div>
   <div id="scene-status">Tear the cloth to reveal the surprise</div>
@@ -315,10 +315,10 @@
   <button id="next-btn">Next →</button>
   <div id="cake-container">
     <div id="cake-card">
-      <div id="cake-ribbon">Happy Birthday, Akshitha • Jul 16</div>
+      <div id="cake-ribbon">Joyfull birthday Suma • Jul 16</div>
       <div id="cake-emoji">🎂</div>
       <h2 id="cake-title">A little celebration, just for you</h2>
-      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Akshitha in a brighter, more magical way.</p>
+      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
       <button id="blow-candles">🕯️ Blow out the candles</button>
     </div>
   </div>
@@ -754,8 +754,8 @@ function draw() {
     ctx.fillStyle = '#fff4c7';
     ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
     ctx.shadowBlur = 10;
-    ctx.strokeText('Happy Birthday', W / 2, H * 0.48);
-    ctx.fillText('Happy Birthday', W / 2, H * 0.48);
+    ctx.strokeText('Joyfull birthday', W / 2, H * 0.48);
+    ctx.fillText('Joyfull birthday', W / 2, H * 0.48);
     ctx.restore();
   }
 }
@@ -875,7 +875,7 @@ window.addEventListener('touchend', () => {
 
 function blowCandles() {
   const cc = document.getElementById('cake-container');
-  cc.innerHTML = '<div id="wish-msg">Happy Birthday, Akshitha! 🎉</div><div id="wish-sub">Jul 16 belongs to you — may every wish you make today come back brighter.</div>';
+  cc.innerHTML = '<div id="wish-msg">Joyfull birthday Suma</div><div id="wish-sub">Jul 16 belongs to you — may every wish you make today come back brighter.</div>';
   launchConfetti();
   setTimeout(launchConfetti, 800);
   setTimeout(launchConfetti, 1600);
@@ -894,10 +894,10 @@ replayBtn.addEventListener('click', () => {
   cc.classList.remove('visible');
   cc.innerHTML = `
     <div id="cake-card">
-      <div id="cake-ribbon">Happy Birthday, Akshitha • Jul 16</div>
+      <div id="cake-ribbon">Joyfull birthday Suma • Jul 16</div>
       <div id="cake-emoji">🎂</div>
       <h2 id="cake-title">A little celebration, just for you</h2>
-      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Akshitha in a brighter, more magical way.</p>
+      <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
       <button id="blow-candles">🕯️ Blow out the candles</button>
     </div>`;
   // Re-attach listener since innerHTML was reset

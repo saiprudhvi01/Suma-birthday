@@ -113,6 +113,8 @@
       pointer-events: none;
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    /* hide the status element when it has no text to avoid an empty pill showing */
+    #scene-status:empty { display: none; }
 
     .floating-star {
       position: absolute;

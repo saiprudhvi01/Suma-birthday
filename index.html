@@ -301,9 +301,9 @@
   <div id="photo-bg"></div>
   <div id="title-badge">
     <span class="name">Suma</span>
-    <span class="date">Birthday sparkle • Jul 16</span>
+    <span class="date">Birthday sparkle • Jul 3</span>
   </div>
-  <div id="scene-status">Tear the cloth to reveal the surprise</div>
+  <div id="scene-status"></div>
   <span class="floating-star" style="left:10%; top:18%; animation-delay:0s;">✦</span>
   <span class="floating-star" style="left:82%; top:24%; animation-delay:1.2s;">✦</span>
   <span class="floating-star" style="left:16%; top:72%; animation-delay:2s;">✦</span>
@@ -315,7 +315,7 @@
   <button id="next-btn">Next →</button>
   <div id="cake-container">
     <div id="cake-card">
-      <div id="cake-ribbon">Joyfull birthday Suma • Jul 16</div>
+      <div id="cake-ribbon">Joyfull birthday Suma • Jul 3</div>
       <div id="cake-emoji">🎂</div>
       <h2 id="cake-title">A little celebration, just for you</h2>
       <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
@@ -503,7 +503,7 @@ function initCloth() {
   replayBtn.classList.remove('visible');
   nextBtn.classList.remove('visible');
   hint.style.opacity = '1';
-  sceneStatus.textContent = 'Tear the cloth to reveal the surprise';
+  sceneStatus.textContent = '';
   sceneStatus.style.opacity = '1';
   sceneStatus.style.transform = 'translateX(-50%) translateY(0)';
   clothCanvas.style.opacity = '1';
@@ -875,7 +875,7 @@ window.addEventListener('touchend', () => {
 
 function blowCandles() {
   const cc = document.getElementById('cake-container');
-  cc.innerHTML = '<div id="wish-msg">Joyfull birthday Suma</div><div id="wish-sub">Jul 16 belongs to you — may every wish you make today come back brighter.</div>';
+  cc.innerHTML = '<div id="wish-msg">Joyfull birthday Suma</div><div id="wish-sub">Jul 3 belongs to you — may every wish you make today come back brighter.</div>';
   launchConfetti();
   setTimeout(launchConfetti, 800);
   setTimeout(launchConfetti, 1600);
@@ -894,7 +894,7 @@ replayBtn.addEventListener('click', () => {
   cc.classList.remove('visible');
   cc.innerHTML = `
     <div id="cake-card">
-      <div id="cake-ribbon">Joyfull birthday Suma • Jul 16</div>
+      <div id="cake-ribbon">Joyfull birthday Suma • Jul 3</div>
       <div id="cake-emoji">🎂</div>
       <h2 id="cake-title">A little celebration, just for you</h2>
       <p id="cake-subtitle">The photo reveal is only the beginning — let’s light the candles, make a wish, and celebrate Suma in a brighter, more magical way.</p>
